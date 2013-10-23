@@ -28,5 +28,19 @@ get '/latest' do
   redirect to("/v/#{latest_version}/auto"), 302
 end
 
-get '/v/:version/:platform' do
+get %r{/v/([^\/]+)/([\w\/]+)} do |version, platform|
+  parts = platform.split("/")
+  if parts.length != 2
+    # TODO
+    raise "Bad"
+  end
+
+  os   = parts[0]
+  arch = parts[1]
+  url  = "https://dl.bintray.com/" +
+    settings.bintray_user + "/" +
+    settings.bintray_project +
+    "/#{version}_#{os}_#{arch}.zip"
+
+  redirect to(url), 302
 end
