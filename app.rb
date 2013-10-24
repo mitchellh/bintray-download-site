@@ -5,7 +5,8 @@ required = [
   "BINTRAY_USER",
   "BINTRAY_API_KEY",
   "BINTRAY_PROJECT",
-  "BINTRAY_PACKAGE"]
+  "BINTRAY_PACKAGE",
+  "DOWNLOADS_PAGE"]
 required.each do |k|
   if !ENV[k]
     puts "Required setting not found: #{k}"
@@ -19,6 +20,11 @@ configure do
   set :bintray_project, ENV["BINTRAY_PROJECT"]
   set :bintray_package, ENV["BINTRAY_PACKAGE"]
   set :bintray, Bintray.new(settings.bintray_user, settings.bintray_api_key)
+  set :downloads_page, ENV["DOWNLOADS_PAGE"]
+end
+
+get "/" do
+  redirect to(settings.downloads_page), 302
 end
 
 get %r{/latest/([\w\/]+)} do |platform|
