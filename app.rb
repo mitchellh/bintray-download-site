@@ -21,11 +21,11 @@ configure do
   set :bintray, Bintray.new(settings.bintray_user, settings.bintray_api_key)
 end
 
-get '/latest' do
+get %r{/latest/([\w\/]+)} do |platform|
   latest_version = settings.bintray.latest_version(
     settings.bintray_project, settings.bintray_package)
 
-  redirect to("/v/#{latest_version}/auto"), 302
+  redirect to("/v/#{latest_version}/#{platform}"), 302
 end
 
 get %r{/v/([^\/]+)/([\w\/]+)} do |version, platform|
