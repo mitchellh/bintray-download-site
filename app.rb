@@ -31,8 +31,7 @@ end
 get %r{/v/([^\/]+)/([\w\/]+)} do |version, platform|
   parts = platform.split("/")
   if parts.length != 2
-    # TODO
-    raise "Bad"
+    halt "Bad platform: #{platform}"
   end
 
   os   = parts[0]
